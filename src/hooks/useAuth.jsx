@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'; // Add "React," here
+import React, { useState, useEffect, useContext, createContext } from 'react'; 
 import bcrypt from 'bcryptjs';
 
 const AuthContext = createContext();
@@ -41,21 +41,21 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
-    // Find user (case-insensitive)
+   
     const existingUser = users.find((u) => u.email === email.trim().toLowerCase());
 
     if (!existingUser) {
       return { success: false, message: "Invalid credentials" };
     }
 
-    // Compare plain-text password with stored hash
+   
     const isMatch = await bcrypt.compare(password, existingUser.password);
 
     if (!isMatch) {
       return { success: false, message: "Invalid credentials" };
     }
 
-    // Success logic
+  
     const token = "jwt_" + btoa(existingUser.email); // mock token
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(existingUser));

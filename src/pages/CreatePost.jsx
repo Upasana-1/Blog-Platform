@@ -96,7 +96,7 @@ const CreatePost = ({ onSave, onCancel }) => {
             ></textarea>
           </div>
 
-          {/* Action Buttons */}
+        
           <div className="flex gap-4 pt-2">
             <button 
               type="button" 

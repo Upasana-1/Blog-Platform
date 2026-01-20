@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import usePosts from '../hooks/usePosts';
 import CreatePost from './CreatePost'; 
-import EditPost from './EditPost'; // 1. Import your new EditPost component
+import EditPost from './EditPost'; 
 
 const Dashboard = () => {
   const { user, logout } = useAuth(); 
@@ -10,7 +10,7 @@ const Dashboard = () => {
   
   const [selectedPost, setSelectedPost] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false); // 2. Add state for the Edit modal
+  const [isEditOpen, setIsEditOpen] = useState(false); 
   const [viewingPost, setViewingPost] = useState(null);
 
   const handleSave = (formData) => {
@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   const closeModal = () => {
     setIsCreateOpen(false);
-    setIsEditOpen(false); // 3. Ensure edit modal closes
+    setIsEditOpen(false); //  Ensure edit modal closes
     setSelectedPost(null);
   };
 
@@ -78,7 +78,7 @@ const Dashboard = () => {
                   <button 
                     onClick={() => { 
                       setSelectedPost(post); 
-                      setIsEditOpen(true); // 4. Open EditPost modal instead of CreatePost
+                      setIsEditOpen(true); // Open EditPost modal 
                     }} 
                     className="text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 transition-colors"
                   >
@@ -101,7 +101,7 @@ const Dashboard = () => {
           />
         )}
 
-        {/* 5. NEW: Edit Modal */}
+        {/* Edit Modal */}
         {isEditOpen && (
           <EditPost 
             post={selectedPost} 
@@ -110,7 +110,7 @@ const Dashboard = () => {
           />
         )}
         
-        {/* Viewing Modal (Remains same) */}
+        {/* Viewing Modal  */}
         {viewingPost && (
            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] flex items-center justify-center p-4">
              <div className="bg-white dark:bg-gray-800 w-full max-w-3xl max-h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">

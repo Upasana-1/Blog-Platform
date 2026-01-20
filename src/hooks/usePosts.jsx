@@ -9,10 +9,10 @@ const usePosts = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // 1. DEFINE the function first
+  // DEFINE the function first
   const addPost = (newPostData) => {
     const newPost = {
-      id: Date.now(), // Generate a simple unique ID
+      id: Date.now(), // Generate unique ID
       ...newPostData,
       createdAt: new Date().toISOString()
     };
@@ -29,17 +29,17 @@ const usePosts = () => {
     setPosts((prev) => prev.filter((post) => post.id !== id));
   };
 
-  // 2. SAVE to localStorage whenever posts change
+  // SAVE to localStorage whenever posts change
   useEffect(() => {
     localStorage.setItem('blog_posts', JSON.stringify(posts));
   }, [posts]);
 
-  // 3. RETURN them at the end
+  //  RETURN them at the end
   return { 
     posts, 
     loading, 
     error, 
-    addPost,    // This must match the name of the function above
+    addPost,    
     updatePost, 
     deletePost 
   };

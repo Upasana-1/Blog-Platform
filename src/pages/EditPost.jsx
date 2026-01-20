@@ -5,7 +5,7 @@ const EditPost = ({ post, onSave, onCancel }) => {
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
 
-  // Pre-fill the form with existing content
+  
   useEffect(() => {
     if (post) {
       setTitle(post.title);

@@ -4,7 +4,7 @@ const PostForm = ({ post, onSave, onCancel }) => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  // If a post is passed in (Edit Mode), fill the fields
+  
   useEffect(() => {
     if (post) {
       setTitle(post.title);
