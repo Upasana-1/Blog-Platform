@@ -2,27 +2,24 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import usePosts from '../hooks/usePosts';
 import CreatePost from './CreatePost'; 
+import EditPost from './EditPost'; // 1. Import your new EditPost component
 
 const Dashboard = () => {
-  const { user, logout } = useAuth(); // logout is extracted here
+  const { user, logout } = useAuth(); 
   const { posts, loading, error, addPost, updatePost, deletePost } = usePosts();
   
   const [selectedPost, setSelectedPost] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false); // 2. Add state for the Edit modal
   const [viewingPost, setViewingPost] = useState(null);
-
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning";
-    if (hour < 18) return "Good Afternoon";
-    return "Good Evening";
-  };
 
   const handleSave = (formData) => {
     try {
       if (selectedPost) {
+        // Handle Edit Save
         updatePost({ ...selectedPost, ...formData });
       } else {
+        // Handle Create Save
         addPost(formData);
       }
       closeModal();
@@ -33,6 +30,7 @@ const Dashboard = () => {
 
   const closeModal = () => {
     setIsCreateOpen(false);
+    setIsEditOpen(false); // 3. Ensure edit modal closes
     setSelectedPost(null);
   };
 
@@ -49,7 +47,6 @@ const Dashboard = () => {
             <p className="text-gray-500 font-medium">Managing {posts.length} articles.</p>
           </div>
           
-          {/* Action Buttons Group */}
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsCreateOpen(true)}
@@ -57,8 +54,6 @@ const Dashboard = () => {
             >
               + Create New Post
             </button>
-            
-            {/* LOGOUT BUTTON ADDED HERE */}
             <button 
               onClick={logout}
               className="bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 px-6 py-4 rounded-2xl font-bold hover:bg-red-100 transition-colors"
@@ -83,7 +78,7 @@ const Dashboard = () => {
                   <button 
                     onClick={() => { 
                       setSelectedPost(post); 
-                      setIsCreateOpen(true); 
+                      setIsEditOpen(true); // 4. Open EditPost modal instead of CreatePost
                     }} 
                     className="text-gray-600 dark:text-gray-300 font-bold hover:text-blue-600 transition-colors"
                   >
@@ -98,15 +93,24 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Modals */}
+        {/* Create Modal */}
         {isCreateOpen && (
           <CreatePost 
+            onSave={handleSave} 
+            onCancel={closeModal} 
+          />
+        )}
+
+        {/* 5. NEW: Edit Modal */}
+        {isEditOpen && (
+          <EditPost 
             post={selectedPost} 
             onSave={handleSave} 
             onCancel={closeModal} 
           />
         )}
         
+        {/* Viewing Modal (Remains same) */}
         {viewingPost && (
            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] flex items-center justify-center p-4">
              <div className="bg-white dark:bg-gray-800 w-full max-w-3xl max-h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">
@@ -114,12 +118,7 @@ const Dashboard = () => {
                 <div className="p-10 overflow-y-auto">
                   <h2 className="text-3xl font-black dark:text-white mb-4">{viewingPost.title}</h2>
                   <p className="text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{viewingPost.body}</p>
-                  <button 
-                    onClick={() => setViewingPost(null)} 
-                    className="mt-8 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold"
-                  >
-                    Back to Dashboard
-                  </button>
+                  <button onClick={() => setViewingPost(null)} className="mt-8 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold">Back to Dashboard</button>
                 </div>
              </div>
            </div>

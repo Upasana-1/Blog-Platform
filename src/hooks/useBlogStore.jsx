@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 const useBlogStore = () => {
  
   const [blogs, setBlogs] = useState(() => {
-    const saved = localStorage.getItem('rupa_local_storage_blogs');
+    const saved = localStorage.getItem('local_storage_blogs');
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('rupa_local_storage_blogs', JSON.stringify(blogs));
+    localStorage.setItem('local_storage_blogs', JSON.stringify(blogs));
   }, [blogs]);
 
   const saveBlog = (newBlog) => {
